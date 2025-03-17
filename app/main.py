@@ -5,7 +5,8 @@ import pymysql
 app = Flask(__name__)
 
 # تنظیمات اتصال به MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://flaskuser:"A1Alaki@498"@localhost/myflaskdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://flaskuser:A1Alaki%40498@localhost/myflaskdb"
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # مقداردهی اولیه به دیتابیس
