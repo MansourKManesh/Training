@@ -19,3 +19,30 @@ def home():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/users', methods=['POST'])
+def add_user():
+    data = request.get_json()
+    new_user = User(name=data['name'], email=data['email'])
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({"message": "کاربر با موفقیت اضافه شد!"}), 201
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    users_list = [{"id": user.id, "name": user.name, "email": user.email} for user in users]
+    return jsonify(users_list)
+
+@app.route('/users/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"message": "❌ کاربر پیدا نشد!"}), 404
+
+    data = request.get_json()
+    user.name = data.get('name', user.name)
+    user.email = data.get('email', user.email)
+    
+    db.session.commit()
+    return jsonify({"message": "✅ اطلاعات کاربر با موفقیت به‌روزرسانی شد!"})
